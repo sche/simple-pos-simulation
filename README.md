@@ -15,15 +15,15 @@ A pool that aggregates commission from every incoming payment
 
 A configurable parameter that defines what part of the incoming payment should be locked in **idp**
 
-**sposToken** - Simple Point of Sale Token
+**spos_token** - Simple Point of Sale Token
 
-ERC20 token that is created and controlled by the SimplePOS contract. Total supply of **sposToken** controls the **idp**
+ERC20 token that is created and controlled by the SimplePOS contract. Total supply of **spos_token** controls the **idp**
 
-**sposToken.supply**
+**spos_token.supply**
 
 Total SimplePOS Token supply
 
-**invariant** = **idp** / **sposToken.supply**
+**invariant** = **idp** / **spos_token.supply**
 
 The invariant is a relation between incentivization DAI pool and Total SimplePOS Token supply.
 The invariant is set with SimplePOS contract deployment.
@@ -37,12 +37,12 @@ Bonding curve coefficient. Used in calculations of how much SimplePOS tokens sho
 ```python
 # Process incoming fee in DAI; Mint required amount of SimplePOS tokens
 def process_incoming_DAI_fee(fee):
-    invariant = idp / sposToken.supply
+    invariant = idp / spos_token.supply
     curve_fee = fee * curve_coefficient
     new_idp_for_invariant = idp + fee - curve_fee
-    to_mint_tokens = new_idp_for_invariant / invariant - sposToken.supply
+    to_mint_tokens = new_idp_for_invariant / invariant - spos_token.supply
     idp += fee
-    sposToken.supply += to_mint_tokens
+    spos_token.supply += to_mint_tokens
 ```
 
 # Playground

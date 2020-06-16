@@ -6,6 +6,7 @@ import numpy as np
 
 idp = 1
 spos_token_supply = 1
+commission = 0.05  # 5% of incoming payments goes to the idp
 
 curve_coefficient = 0.5  # configurable dynamic param
 
@@ -21,16 +22,17 @@ def process_incoming_DAI_fee(fee):
 
 
 def test():
-    global idp, spos_token_supply
+    global idp, spos_token_supply, commission
     n = 30000  # total payments
     np.random.seed(1234)
-    payments = np.random.rand(n) * 20  # random payments up to 20 DAI
+    # random payments up to 50 DAI
+    payment_fees = np.random.rand(n) * 50 * commission
     # token prices in DAI after payments
     token_prices = [idp / spos_token_supply]
     pools = [idp]
     tokens = [spos_token_supply]
     for i in range(n):
-        process_incoming_DAI_fee(payments[i])
+        process_incoming_DAI_fee(payment_fees[i])
         token_prices.append(idp / spos_token_supply)
         pools.append(idp)
         tokens.append(spos_token_supply)
